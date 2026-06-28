@@ -43,11 +43,11 @@ public class VentanaPrincipal extends JFrame {
         grafo = new Grafo(0);
         dijkstra = new Dijkstra(grafo);
 
-        cargarAlmacenesGuardados();
-
         crearPanelSuperior();
         crearPanelCentral();
         crearPanelInferior();
+
+        cargarAlmacenesGuardados();
 
         actualizarTabla();
         actualizarCombos();
@@ -120,7 +120,9 @@ public class VentanaPrincipal extends JFrame {
                     conexionesAgregadas++;
                 }
             }
-            areaResultados.append("Conexiones generadas: " + conexionesAgregadas + "\n");
+            if (areaResultados != null) {
+                areaResultados.append("Conexiones generadas: " + conexionesAgregadas + "\n");
+            }
         }
 
         dijkstra = new Dijkstra(grafo);
@@ -170,9 +172,6 @@ public class VentanaPrincipal extends JFrame {
         comboOrigen = new JComboBox<>();
         comboDestino = new JComboBox<>();
 
-        comboOrigen.addActionListener(e -> verificarCombos());
-        comboDestino.addActionListener(e -> verificarCombos());
-
         JButton btnCalcular = new JButton("Calcular Ruta");
         JButton btnVerGrafo = new JButton("Ver Matriz");
         JButton btnRegenerar = new JButton("Regenerar Conexiones");
@@ -208,9 +207,14 @@ public class VentanaPrincipal extends JFrame {
         String origen = (String) comboOrigen.getSelectedItem();
         String destino = (String) comboDestino.getSelectedItem();
 
+        if (comboOrigen.getItemCount() < 2) {
+            return;
+        }
+
         if (origen != null && destino != null && origen.equals(destino)) {
-            JOptionPane.showMessageDialog(this, "El origen y el destino no pueden ser el mismo almacen.");
-            comboDestino.setSelectedIndex(-1);
+            int currentIndex = comboDestino.getSelectedIndex();
+            int nextIndex = (currentIndex + 1) % comboDestino.getItemCount();
+            comboDestino.setSelectedIndex(nextIndex);
         }
     }
 
@@ -449,11 +453,13 @@ public class VentanaPrincipal extends JFrame {
     private void actualizarCombos() {
         comboOrigen.removeAllItems();
         comboDestino.removeAllItems();
-        for (Almacen a : arbolAlmacenes.obtenerTodos()) {
+        List<Almacen> almacenes = arbolAlmacenes.obtenerTodos();
+        for (Almacen a : almacenes) {
             String item = a.getId() + " - " + a.getNombre();
             comboOrigen.addItem(item);
             comboDestino.addItem(item);
         }
+        verificarCombos();
     }
 
     public static void main(String[] args) {
