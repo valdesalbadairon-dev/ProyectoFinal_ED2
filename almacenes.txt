@@ -1,3 +1,2 @@
-234512,aceite,pinar del rio,Occidente
-234513,tapas,mariel,Occidente
-243546,pomos,Bayamo,Oriente
+14234,jabon,bayamo,Occidente
+32451,estuche,Trinidad,Pgoloti

@@ -31,6 +31,8 @@ public class VentanaPrincipal extends JFrame {
         DISTANCIAS_REGIONALES.put("Oriente", 3);
     }
 
+    private static final String[] REGIONES_VALIDAS = {"Occidente", "Centro", "Oriente"};
+
     public VentanaPrincipal() {
         setTitle("Sistema de Logistica y Rutas de Distribucion");
         setSize(950, 750);
@@ -74,6 +76,18 @@ public class VentanaPrincipal extends JFrame {
             return false;
         }
         return texto.matches("^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+$");
+    }
+
+    private boolean regionValida(String region) {
+        if (region == null || region.isEmpty()) {
+            return false;
+        }
+        for (String r : REGIONES_VALIDAS) {
+            if (r.equals(region)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private boolean idExiste(int id) {
@@ -256,8 +270,16 @@ public class VentanaPrincipal extends JFrame {
 
             String region = JOptionPane.showInputDialog("Region (Occidente, Centro, Oriente):");
             if (region == null) return;
+            
+            // Validación: solo letras
             if (!soloLetras(region)) {
                 JOptionPane.showMessageDialog(this, "Error: La region solo debe contener letras y espacios.");
+                return;
+            }
+            
+            // Validación: región válida (solo Occidente, Centro, Oriente)
+            if (!regionValida(region)) {
+                JOptionPane.showMessageDialog(this, "Error: La region debe ser 'Occidente', 'Centro' o 'Oriente'.");
                 return;
             }
 
@@ -332,10 +354,18 @@ public class VentanaPrincipal extends JFrame {
                     return;
                 }
 
-                String regionNueva = JOptionPane.showInputDialog("Nueva region:", viejo.getRegion());
+                String regionNueva = JOptionPane.showInputDialog("Nueva region (Occidente, Centro, Oriente):", viejo.getRegion());
                 if (regionNueva == null) return;
+                
+                // Validación: solo letras
                 if (!soloLetras(regionNueva)) {
                     JOptionPane.showMessageDialog(this, "Error: La region solo debe contener letras y espacios.");
+                    return;
+                }
+                
+                // Validación: región válida (solo Occidente, Centro, Oriente)
+                if (!regionValida(regionNueva)) {
+                    JOptionPane.showMessageDialog(this, "Error: La region debe ser 'Occidente', 'Centro' o 'Oriente'.");
                     return;
                 }
 
