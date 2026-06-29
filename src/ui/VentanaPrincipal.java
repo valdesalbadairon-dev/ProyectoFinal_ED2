@@ -225,13 +225,13 @@ public class VentanaPrincipal extends JFrame {
 
     private void insertarAlmacen() {
         try {
-            String idStr = JOptionPane.showInputDialog("ID del almacen:");
+            String idStr = JOptionPane.showInputDialog("ID del almacen (10000 - 99999):");
             if (idStr == null) return;
 
             int id = Integer.parseInt(idStr);
 
-            if (String.valueOf(id).length() < 5) {
-                JOptionPane.showMessageDialog(this, "Error: El ID debe tener al menos 5 digitos.");
+            if (String.valueOf(id).length() != 5) {
+                JOptionPane.showMessageDialog(this, "Error: El ID debe tener exactamente 5 digitos (10000 - 99999).");
                 return;
             }
 
@@ -304,12 +304,12 @@ public class VentanaPrincipal extends JFrame {
             Almacen viejo = arbolAlmacenes.buscar(new Almacen(idViejo, "", "", ""));
 
             if (viejo != null) {
-                String idNuevoStr = JOptionPane.showInputDialog("Nuevo ID:", viejo.getId());
+                String idNuevoStr = JOptionPane.showInputDialog("Nuevo ID (10000 - 99999):", viejo.getId());
                 if (idNuevoStr == null) return;
 
                 int idNuevo = Integer.parseInt(idNuevoStr);
-                if (String.valueOf(idNuevo).length() < 5) {
-                    JOptionPane.showMessageDialog(this, "Error: El ID debe tener al menos 5 digitos.");
+                if (String.valueOf(idNuevo).length() != 5) {
+                    JOptionPane.showMessageDialog(this, "Error: El ID debe tener exactamente 5 digitos (10000 - 99999).");
                     return;
                 }
 
